@@ -19,7 +19,28 @@ import hiringPhoto1 from '../assets/images/events/hiring-2nd-3rd-year-2026/photo
 import hiringPhoto2 from '../assets/images/events/hiring-2nd-3rd-year-2026/photo-2.jpeg';
 import hiringPhoto3 from '../assets/images/events/hiring-2nd-3rd-year-2026/photo-3.jpeg';
 import hiringPhoto4 from '../assets/images/events/hiring-2nd-3rd-year-2026/photo-4.jpeg';
+
+import hiring1stPhoto1 from '../assets/images/events/hiring-1st-year-2026/photo-1.jpeg';
+import hiring1stPhoto2 from '../assets/images/events/hiring-1st-year-2026/photo-2.jpeg';
+import hiring1stPhoto3 from '../assets/images/events/hiring-1st-year-2026/photo-3.jpeg';
+import hiring1stPhoto4 from '../assets/images/events/hiring-1st-year-2026/photo-4.jpeg';
 export const EVENTS = [
+  {
+    slug: 'hiring-1st-year-2026',
+    category: 'Events',
+    title: 'Hiring 1st Year Students',
+    meta: 'Recruitment',
+    date: 'Oct 2026',
+    hasResults: true,
+    description:
+      'The Turing Club opened its doors to first-year students — a recruitment drive across Tech, Design, Social Media, Marketing, and Photography, welcoming new talent regardless of prior experience.',
+    details: [
+      'This was the first time the Turing Club ran a dedicated recruitment drive exclusively for first-year students, giving them a chance to get involved from their very first semester.',
+      'Domains open for applications: Tech, Design, Photography, Marketing, and Social Media. Students were evaluated through a short task round and a brief interaction with domain leads.',
+      'The drive aimed to build a stronger, more diverse pipeline of contributors who could grow with the club through the course of their undergraduate journey.',
+    ],
+    photos: [hiring1stPhoto1, hiring1stPhoto2, hiring1stPhoto3, hiring1stPhoto4],
+  },
   {
     slug: 'hiring-2nd-3rd-year-2026',
     category: 'Events',
