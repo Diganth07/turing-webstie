@@ -22,6 +22,7 @@ This list is maintained by hand alongside the GitHub [contributors graph](https:
   - Implemented generic tabbed hiring results page, created results data registry, and removed home-page results entry points and stale pending copy ([#18](https://github.com/TheTuringClubJU/turing-webstie/pull/18))
 - Swapnil Ghosh ([@swapnilg](https://github.com/swapnilg))
   - Added Hiring 1st Year Students event card with Read More page, extended details section, 4 event photos, and results JSON (Task B) ([#PR](https://github.com/TheTuringClubJU/turing-webstie/pulls))
+  - Modernized navigation UI with modular floating 3-pill layout, active scroll-spy, glassmorphism, radar status indicators, and animated mobile drawer
 
 <!--
 Add new contributors below this line, following the format above.
