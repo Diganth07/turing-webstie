@@ -1,9 +1,7 @@
 import { Link } from 'react-router-dom';
 
-// Reusable "Results" button — links to the dedicated results page for an
-// event. Right now that page just says results are pending; once results
-// are finalized, update the Results page's content — this button doesn't
-// need to change.
+// Reusable "Results" button — links to the dedicated tabbed results page
+// for an event (/our-work/:slug/results).
 export default function ResultsButton({ slug, className = '', label = 'Results' }) {
   return (
     <Link

@@ -18,6 +18,8 @@ This list is maintained by hand alongside the GitHub [contributors graph](https:
   - Updated the Leaders section with the correct leadership hierarchy and updated leader photos.([#11](https://github.com/TheTuringClubJU/turing-webstie/pull/11))
   - Fixes production image and ensured images are correctly bundled and displayed in the Vercel production build.([#12](https://github.com/TheTuringClubJU/turing-webstie/pull/12))
   - Add Dheeksharambh 2025 and 2026 events, bid & byte events and cybersecurity workshop data.([#13](https://github.com/TheTuringClubJU/turing-webstie/pull/13))
+- Subham ([@Subham](https://github.com/))
+  - Implemented generic tabbed hiring results page, created results data registry, and removed home-page results entry points and stale pending copy ([#<issue>](https://github.com/TheTuringClubJU/turing-webstie/pull/<issue>))
 
 <!--
 Add new contributors below this line, following the format above.

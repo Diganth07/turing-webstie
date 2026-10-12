@@ -70,12 +70,6 @@ export default function NotificationBar() {
           )}
         </Link>
 
-        <Link
-          to={notification.href}
-          className="hidden sm:inline text-xs font-mono text-amber-300/80 hover:text-amber-100 transition-colors whitespace-nowrap"
-        >
-          View Results &rarr;
-        </Link>
 
         <button
           onClick={minimize}
