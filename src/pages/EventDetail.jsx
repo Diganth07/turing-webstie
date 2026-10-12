@@ -67,6 +67,16 @@ export default function EventDetail() {
             {item.description}
           </p>
 
+          {item.details && item.details.length > 0 && (
+            <div className="mt-6 space-y-3 max-w-3xl">
+              {item.details.map((para, i) => (
+                <p key={i} className="text-sm md:text-base text-text-muted leading-relaxed">
+                  {para}
+                </p>
+              ))}
+            </div>
+          )}
+
           {item.hasResults && <ResultsButton slug={item.slug} className="mt-6" />}
         </div>
       </section>
