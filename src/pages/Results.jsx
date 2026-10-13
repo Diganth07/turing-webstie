@@ -218,6 +218,11 @@ export default function Results() {
                     <div className="text-sm sm:text-base font-semibold text-text mb-1">
                       {student.name}
                     </div>
+                    {student.usn && (
+                      <div className="text-xs font-mono text-text-dim mb-1">
+                        {student.usn}
+                      </div>
+                    )}
                     {student.program && (
                       <div className="text-xs text-text-muted mb-2">
                         {student.program}
