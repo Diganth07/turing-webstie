@@ -1,0 +1,48 @@
+{
+  "event": "Hiring 2nd & 3rd Year Students",
+  "slug": "hiring-2nd-3rd-year-2026",
+  "announcedOn": "2026-10-13",
+  "domains": {
+    "tech": {
+      "label": "Tech",
+      "selected": [
+        { "name": "K. Sukrit", "year": "2nd", "usn": "25BTRCL117" },
+        { "name": "Sanskar Pandey", "year": "2nd", "usn": "25BTRCL234" },
+        { "name": "Param Rajyaguru", "year": "2nd", "usn": "25BTRCL180" },
+        { "name": "Vishad Jain", "year": "2nd", "usn": "25BTRPW104" },
+        { "name": "Shahan Samar", "year": "2nd", "usn": "25BTRCB044" },
+        { "name": "Subham Das", "year": "2nd", "usn": "25BTRCB051" }
+      ]
+    },
+    "design": {
+      "label": "Design",
+      "selected": []
+    },
+    "photography": {
+      "label": "Photography",
+      "selected": [
+        { "name": "Narayan Priyadarshi", "year": "2nd", "usn": "25BTRCL167" },
+        { "name": "Yaksh", "year": "2nd", "usn": "25BTRCL288" },
+        { "name": "Kavya", "year": "2nd", "usn": "25BTRCL185" },
+        { "name": "Harsh Raj", "year": "2nd", "usn": "25BTRCL084" },
+        { "name": "Mihir Saurabh", "year": "2nd", "usn": "25BTRPW061" }
+      ]
+    },
+    "marketing": {
+      "label": "Marketing",
+      "selected": [
+        { "name": "Saina Naushad", "year": "2nd", "usn": "25BTRCL234" },
+        { "name": "Denish Yadav", "year": "2nd", "usn": "25BTRSNO56" },
+        { "name": "Rishika", "year": "2nd", "usn": "JUUG26LBTECH28796" },
+        { "name": "Lohith", "year": "2nd", "usn": "JUUG26LBTECH21552" }
+      ]
+    },
+    "social-media": {
+      "label": "Social Media",
+      "selected": [
+        { "name": "Nishtha Shankar", "year": "2nd", "usn": "25BTRCL170" },
+        { "name": "Shourish Mohan", "year": "2nd", "usn": "25BTRCL243" }
+      ]
+    }
+  }
+}

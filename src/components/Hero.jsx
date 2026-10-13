@@ -1,6 +1,5 @@
 import NeuralNetDiagram from './NeuralNetDiagram';
 import TerminalPanel from './TerminalPanel';
-import ResultsButton from './ResultsButton';
 
 export default function Hero() {
   return (
@@ -56,7 +55,7 @@ export default function Hero() {
             ))}
           </div>
 
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3 mb-6">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3">
             <button className="w-full sm:w-auto px-6 py-3 bg-primary hover:bg-primary-light transition-colors rounded-md font-semibold text-sm">
               Apply to Join
             </button>
@@ -66,25 +65,6 @@ export default function Hero() {
             >
               See Upcoming Events
             </a>
-          </div>
-
-          {/* hiring results card */}
-          <div className="max-w-md px-3.5 sm:px-4 py-3 border border-border rounded-lg bg-surface/60">
-            <div className="flex items-center gap-3 sm:gap-4">
-              <span className="relative flex h-2 w-2 shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-light opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-light" />
-              </span>
-              <div className="flex-1 min-w-0">
-                <div className="text-[10px] sm:text-[11px] font-mono uppercase tracking-widest text-text-dim">
-                  Hiring &middot; 2nd &amp; 3rd Year Students
-                </div>
-                <div className="text-xs sm:text-sm text-text font-medium truncate">
-                  Applications closed &mdash; results pending
-                </div>
-              </div>
-            </div>
-            <ResultsButton slug="hiring-2nd-3rd-year-2026" className="mt-3" />
           </div>
         </div>
 
