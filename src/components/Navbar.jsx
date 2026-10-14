@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/images/logo.png';
 import { useActiveSection } from './navbar/useActiveSection';
-import StatusPill from './navbar/StatusPill';
 import CenterNavPill from './navbar/CenterNavPill';
 import ActionPill from './navbar/ActionPill';
 import MobileNavDrawer from './navbar/MobileNavDrawer';
@@ -21,10 +20,8 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           {/* Desktop & Tablet Floating Nav (3-section pill layout inspired by Zenwood) */}
           <div className="hidden md:flex items-center justify-between gap-4 pointer-events-auto">
-            {/* Left section: Status Badge Pill */}
-            <div className="flex-1 flex items-center justify-start">
-              <StatusPill />
-            </div>
+            {/* Left section: Balanced spacer so CenterNavPill stays perfectly centered */}
+            <div className="flex-1" />
 
             {/* Center section: Logo + Nav Items Floating Pill */}
             <div className="flex items-center justify-center">
@@ -49,13 +46,8 @@ export default function Navbar() {
               </span>
             </Link>
 
-            {/* Mobile Actions: Green radar dot + Menu toggle */}
-            <div className="flex items-center gap-2">
-              <span className="relative flex h-2 w-2 shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-              </span>
-
+            {/* Mobile Actions: Menu toggle */}
+            <div className="flex items-center">
               <button
                 onClick={() => setMobileOpen(true)}
                 className="p-1.5 rounded-full hover:bg-white/10 text-text-muted hover:text-white transition-colors"

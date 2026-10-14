@@ -59,21 +59,6 @@ export default function MobileNavDrawer({ isOpen, onClose, activeSection }) {
           </button>
         </div>
 
-        {/* Status notice */}
-        <div className="my-3 px-3 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-            </span>
-            <span className="text-xs font-mono text-emerald-300">
-              Recruitment Live
-            </span>
-          </div>
-          <span className="text-[10px] font-mono bg-emerald-400/20 text-emerald-200 px-2 py-0.5 rounded-full">
-            1st Year
-          </span>
-        </div>
 
         {/* Navigation list */}
         <div className="flex flex-col gap-1 py-2">

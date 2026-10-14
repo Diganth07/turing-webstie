@@ -1,6 +1,5 @@
 import photo1 from '../assets/images/events/hackncrack/photo-1.jpeg';
 import photo2 from '../assets/images/events/hackncrack/photo-2.jpeg';
-import photo3 from '../assets/images/events/hackncrack/photo-3.jpeg';
 import photo4 from '../assets/images/events/hackncrack/photo-4.jpeg';
 
 import bidByte1 from '../assets/images/events/bid-byte/photo-1.jpeg';
@@ -24,6 +23,8 @@ import hiring1stPhoto1 from '../assets/images/events/hiring-1st-year-2026/photo-
 import hiring1stPhoto2 from '../assets/images/events/hiring-1st-year-2026/photo-2.jpeg';
 import hiring1stPhoto3 from '../assets/images/events/hiring-1st-year-2026/photo-3.jpeg';
 import hiring1stPhoto4 from '../assets/images/events/hiring-1st-year-2026/photo-4.jpeg';
+import hiring1stPhoto5 from '../assets/images/events/hiring-1st-year-2026/photo-5.jpeg';
+import hiring1stPhoto6 from '../assets/images/events/hiring-1st-year-2026/photo-6.jpeg';
 export const EVENTS = [
   {
     slug: 'hiring-1st-year-2026',
@@ -39,7 +40,7 @@ export const EVENTS = [
       'Domains open for applications: Tech, Design, Photography, Marketing, and Social Media. Students were evaluated through a short task round and a brief interaction with domain leads.',
       'The drive aimed to build a stronger, more diverse pipeline of contributors who could grow with the club through the course of their undergraduate journey.',
     ],
-    photos: [hiring1stPhoto1, hiring1stPhoto2, hiring1stPhoto3, hiring1stPhoto4],
+    photos: [hiring1stPhoto1, hiring1stPhoto2, hiring1stPhoto3, hiring1stPhoto4, hiring1stPhoto5, hiring1stPhoto6],
   },
   {
     slug: 'hiring-2nd-3rd-year-2026',
@@ -68,7 +69,6 @@ export const EVENTS = [
     photos: [
       photo1,
       photo2,
-      photo3,
       photo4,
     ],
   },
