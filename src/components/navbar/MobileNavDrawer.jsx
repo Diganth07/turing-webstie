@@ -25,24 +25,24 @@ export default function MobileNavDrawer({ isOpen, onClose, activeSection }) {
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/75 backdrop-blur-md z-[70] transition-opacity duration-300 animate-in fade-in"
+        className="fixed inset-0 bg-black/80 backdrop-blur-md z-[70] transition-opacity duration-300 animate-in fade-in"
         onClick={onClose}
         aria-hidden="true"
       />
 
       {/* Floating Modal Panel */}
-      <div className="fixed top-3 inset-x-3 sm:inset-x-6 max-w-md mx-auto z-[80] glass-pill rounded-3xl border border-white/15 p-5 shadow-2xl shadow-black/80 animate-in zoom-in-95 duration-200">
+      <div className="fixed top-3.5 inset-x-3.5 sm:inset-x-6 max-w-md mx-auto z-[80] glass-pill rounded-3xl border border-white/15 p-5 sm:p-6 shadow-2xl shadow-black/80 animate-in zoom-in-95 duration-200">
         {/* Header inside modal */}
         <div className="flex items-center justify-between pb-4 border-b border-border/80">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-full bg-black/80 border border-white/10 flex items-center justify-center">
-              <img src={logo} alt="The Turing Club" className="w-5 h-5 object-contain" />
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-full bg-black/80 border border-white/15 flex items-center justify-center shrink-0 shadow-xs">
+              <img src={logo} alt="The Turing Club" className="w-5.5 h-5.5 object-contain" />
             </div>
             <div>
-              <span className="font-semibold text-sm tracking-tight text-white block">
+              <span className="font-semibold text-sm sm:text-base tracking-tight text-white block leading-tight">
                 The Turing Club
               </span>
-              <span className="text-[10px] font-mono text-text-muted">
+              <span className="text-[10px] sm:text-[11px] font-mono text-text-muted mt-0.5 block">
                 Jain (Deemed-to-be) University
               </span>
             </div>
@@ -50,18 +50,17 @@ export default function MobileNavDrawer({ isOpen, onClose, activeSection }) {
 
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-surface border border-border flex items-center justify-center text-text-muted hover:text-white transition-colors"
+            className="w-9 h-9 rounded-full bg-surface border border-border flex items-center justify-center text-text-muted hover:text-white active:scale-90 transition-all"
             aria-label="Close menu"
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4.5 h-4.5">
               <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
         </div>
 
-
         {/* Navigation list */}
-        <div className="flex flex-col gap-1 py-2">
+        <div className="flex flex-col gap-1.5 py-3">
           {NAV_LINKS.map((link) => {
             const isActive = activeSection === link.id;
 
@@ -70,15 +69,15 @@ export default function MobileNavDrawer({ isOpen, onClose, activeSection }) {
                 key={link.href}
                 to={link.href}
                 onClick={onClose}
-                className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                className={`flex items-center justify-between px-4 py-3 rounded-2xl text-[15px] sm:text-base font-medium transition-all duration-200 ${
                   isActive
-                    ? 'bg-white/10 text-white font-semibold border border-white/10'
-                    : 'text-text-muted hover:text-white hover:bg-white/5'
+                    ? 'bg-white/[0.12] text-white font-semibold border border-white/15 shadow-inner'
+                    : 'text-text-muted hover:text-white hover:bg-white/5 active:scale-[0.98]'
                 }`}
               >
                 <span>{link.label}</span>
                 {isActive && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary-light" />
+                  <span className="w-2 h-2 rounded-full bg-primary-light shadow-xs shadow-primary-light/60" />
                 )}
               </Link>
             );
@@ -86,11 +85,11 @@ export default function MobileNavDrawer({ isOpen, onClose, activeSection }) {
         </div>
 
         {/* CTA Button */}
-        <div className="mt-4 pt-3 border-t border-border/80">
+        <div className="pt-3 border-t border-border/80">
           <Link
             to="/our-work/hiring-1st-year-2026"
             onClick={onClose}
-            className="flex items-center justify-center gap-2 w-full py-3 bg-primary hover:bg-primary-light text-white font-semibold text-sm rounded-xl transition-all shadow-md shadow-primary/20"
+            className="flex items-center justify-center gap-2.5 w-full py-3.5 bg-primary hover:bg-primary-light text-white font-semibold text-sm sm:text-[15px] rounded-2xl transition-all shadow-lg shadow-primary/25 active:scale-[0.98]"
           >
             <span>Apply to Join</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
