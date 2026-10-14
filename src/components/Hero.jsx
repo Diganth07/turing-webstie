@@ -30,7 +30,6 @@ export default function Hero() {
       <div className="relative max-w-7xl mx-auto px-5 md:px-10 pt-12 pb-10 md:pt-20 md:pb-14">
         <div className="max-w-2xl">
           <div className="inline-flex items-center gap-2 mb-5 px-3 py-1.5 border border-white/10 bg-white/[0.03] backdrop-blur-md rounded-full text-[10px] sm:text-xs font-mono tracking-widest text-text-muted uppercase">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-xs shadow-emerald-400/60" />
             Events &middot; Hackathons &middot; Workshops
           </div>
 

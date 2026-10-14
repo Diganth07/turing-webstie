@@ -21,8 +21,29 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           {/* Desktop & Tablet Floating Nav (3-section pill layout inspired by Zenwood) */}
           <div className="hidden md:flex items-center justify-between gap-4 pointer-events-auto">
-            {/* Left section: Balanced spacer so CenterNavPill stays perfectly centered */}
-            <div className="flex-1" />
+            {/* Left section: Brand identity (Logo + The Turing Club) */}
+            <div className="flex-1 flex items-center justify-start">
+              <Link
+                to="/"
+                className="inline-flex items-center gap-3 group active:scale-95 transition-transform duration-200"
+              >
+                <div className="w-9 h-9 rounded-full bg-black/80 border border-white/15 flex items-center justify-center shrink-0 shadow-xs group-hover:border-white/30 transition-colors">
+                  <img
+                    src={logo}
+                    alt="The Turing Club"
+                    className="w-5.5 h-5.5 object-contain transition-transform duration-300 group-hover:rotate-6"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-semibold text-sm sm:text-[15px] tracking-tight text-white leading-tight group-hover:text-primary-light transition-colors duration-200">
+                    The Turing Club
+                  </span>
+                  <span className="text-[10px] font-mono text-text-muted leading-none mt-0.5">
+                    JAIN (Deemed-to-be University)
+                  </span>
+                </div>
+              </Link>
+            </div>
 
             {/* Center section: Logo + Nav Items Floating Pill */}
             <div className="flex items-center justify-center">

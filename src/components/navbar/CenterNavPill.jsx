@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../../assets/images/logo.png';
 
 const NAV_LINKS = [
   { label: 'Home', href: '/#home', id: 'home' },
@@ -63,21 +62,7 @@ export default function CenterNavPill({ activeSection }) {
   }, [targetId]);
 
   return (
-    <nav className="glass-pill flex items-center gap-1.5 sm:gap-2 p-1.5 sm:p-2 rounded-full shadow-2xl transition-all duration-300">
-      {/* Brand logo in round badge */}
-      <Link
-        to="/"
-        className="group relative z-10 flex items-center justify-center w-9 h-9 sm:w-9.5 sm:h-9.5 rounded-full bg-black border border-white/15 hover:border-white/30 transition-all duration-300 shrink-0 ml-0.5 overflow-hidden shadow-xs hover:scale-105 active:scale-95"
-        title="The Turing Club"
-        aria-label="Home"
-      >
-        <img
-          src={logo}
-          alt="The Turing Club emblem"
-          className="w-5.5 h-5.5 sm:w-6 sm:h-6 object-contain transition-transform duration-300 group-hover:rotate-6"
-        />
-      </Link>
-
+    <nav className="glass-pill flex items-center p-1 sm:p-1.5 rounded-full shadow-2xl transition-all duration-300">
       {/* Nav items wrapper with inset-y-0 fluid indicator */}
       <div
         ref={linksContainerRef}
