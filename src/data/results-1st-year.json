@@ -5,48 +5,23 @@
   "domains": {
     "tech": {
       "label": "Tech",
-      "selected": [
-        { "name": "Ishan Gupta", "year": "1st", "usn": "JUUG26BTECH15128" },
-        { "name": "Venugopal Yelaburgi", "year": "1st", "usn": "25BTRBT052" },
-        { "name": "R Hari Priya", "year": "1st", "usn": "25BTRCA046" }
-      ]
+      "selected": []
     },
     "design": {
       "label": "Design",
-      "selected": [
-        { "name": "Kamya", "year": "1st", "usn": "25BTRCL104" },
-        { "name": "Venugopal", "year": "1st", "usn": "25BTRBT052" },
-        { "name": "Tashvi", "year": "1st", "usn": "25BTRCL271" }
-      ]
+      "selected": []
     },
     "photography": {
       "label": "Photography",
-      "selected": [
-        { "name": "Praveen Kumar. N", "year": "1st", "usn": "25BTRCL195" },
-        { "name": "Prithvi", "year": "1st" }
-      ]
+      "selected": []
     },
     "marketing": {
       "label": "Marketing",
-      "selected": [
-        { "name": "Maithri M", "year": "1st", "usn": "26BTRCL217" },
-        { "name": "Abhyuday Singh", "year": "1st", "usn": "26BTRCL017" },
-        { "name": "Ansel Justin", "year": "1st", "usn": "25BTRCN136" },
-        { "name": "Abhinav Chaudhary", "year": "1st", "usn": "26BTRCL015" },
-        { "name": "Laksh Singh", "year": "1st", "usn": "26BTRCO023" },
-        { "name": "Harsh Chaudhary", "year": "1st", "usn": "26BTRC0016" },
-        { "name": "Ayush Kumar", "year": "1st", "usn": "26BTRCL065" }
-      ]
+      "selected": []
     },
     "social-media": {
       "label": "Social Media",
-      "selected": [
-        { "name": "R Hari Priya", "year": "1st", "usn": "25BTRCA046", "program": "CSE AI A" },
-        { "name": "Arya Vishwakarma", "year": "1st", "usn": "26BTRCL054", "program": "AIML" },
-        { "name": "T Yasho Keerthi", "year": "1st", "usn": "26BTRCL407", "program": "CSE AI ML G" },
-        { "name": "Amber Naik", "year": "1st", "usn": "26BTRCL035" },
-        { "name": "Aayushman Shrivastava", "year": "1st", "usn": "25BTRCF001", "program": "CTIS" }
-      ]
+      "selected": []
     }
   }
 }
