@@ -1,0 +1,27 @@
+{
+  "event": "Hiring 1st Year Students",
+  "slug": "hiring-1st-year-2026",
+  "announcedOn": "2026-10-13",
+  "domains": {
+    "tech": {
+      "label": "Tech",
+      "selected": []
+    },
+    "design": {
+      "label": "Design",
+      "selected": []
+    },
+    "photography": {
+      "label": "Photography",
+      "selected": []
+    },
+    "marketing": {
+      "label": "Marketing",
+      "selected": []
+    },
+    "social-media": {
+      "label": "Social Media",
+      "selected": []
+    }
+  }
+}

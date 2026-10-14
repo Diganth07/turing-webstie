@@ -1,114 +1,105 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/images/logo.png';
-
-// hrefs are "/#section" so they always route to the home page first,
-// then scroll to the section — works correctly from any page, not just
-// when already on home.
-const NAV_LINKS = [
-  { label: 'Home', href: '/#home' },
-  { label: 'About', href: '/#about' },
-  { label: 'What We Do', href: '/#what-we-do' },
-  { label: 'Events', href: '/#events' },
-  { label: 'Leaders', href: '/#leaders' },
-];
+import { useActiveSection } from './navbar/useActiveSection';
+import CenterNavPill from './navbar/CenterNavPill';
+import ActionPill from './navbar/ActionPill';
+import MobileNavDrawer from './navbar/MobileNavDrawer';
+import MenuToggleIcon from './navbar/MenuToggleIcon';
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
-
-  // lock body scroll while drawer is open
-  useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [open]);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const { activeSection, isScrolled } = useActiveSection();
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-border bg-bg/80 backdrop-blur-sm">
-        <nav className="max-w-7xl mx-auto px-5 md:px-10 h-20 flex items-center justify-between">
-          {/* left: logo + name */}
-          <Link to="/" className="flex items-center gap-2 sm:gap-3">
-            <img src={logo} alt="The Turing Club logo" className="h-10 w-10 sm:h-12 sm:w-12 object-contain" />
-            <span className="font-semibold text-sm tracking-tight">
-              The Turing Club
-            </span>
-          </Link>
-
-          {/* right: nav links (desktop) */}
-          <div className="hidden md:flex items-center gap-8">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                to={link.href}
-                className="text-sm text-text-muted hover:text-text transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
-            <button className="px-4 py-2 bg-primary hover:bg-primary-light transition-colors rounded-md text-sm font-semibold">
-              Apply to Join
-            </button>
-          </div>
-
-          {/* mobile menu button */}
-          <button
-            className="md:hidden flex flex-col gap-1.5 p-2"
-            onClick={() => setOpen(true)}
-            aria-label="Open menu"
-          >
-            <span className="block w-5 h-0.5 bg-text" />
-            <span className="block w-5 h-0.5 bg-text" />
-            <span className="block w-5 h-0.5 bg-text" />
-          </button>
-        </nav>
-      </header>
-
-      {/* mobile drawer: backdrop — rendered outside <header> so it isn't
-          trapped by the header's backdrop-blur containing block */}
-      <div
-        className={`md:hidden fixed inset-0 bg-black/60 z-[60] transition-opacity duration-300 ${
-          open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
-        onClick={() => setOpen(false)}
-      />
-
-      {/* mobile drawer: sliding panel from right */}
-      <div
-        className={`md:hidden fixed top-0 right-0 h-dvh w-72 max-w-[80vw] bg-surface border-l border-border z-[70] transform transition-transform duration-300 ease-out ${
-          open ? 'translate-x-0' : 'translate-x-full'
+      <header
+        className={`sticky top-0 z-50 w-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-none ${
+          isScrolled ? 'pt-2.5 sm:pt-3 pb-2' : 'pt-4 sm:pt-5 pb-3'
         }`}
       >
-        <div className="flex items-center justify-between px-5 h-16 border-b border-border">
-          <span className="text-sm font-semibold">Menu</span>
-          <button
-            onClick={() => setOpen(false)}
-            aria-label="Close menu"
-            className="p-2 -mr-2"
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-5 h-5">
-              <path d="M6 6l12 12M18 6L6 18" />
-            </svg>
-          </button>
-        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          {/* Desktop & Tablet Floating Nav (3-section pill layout inspired by Zenwood) */}
+          <div className="hidden md:flex items-center justify-between gap-4 pointer-events-auto">
+            {/* Left section: Brand identity (Logo + The Turing Club) */}
+            <div className="flex-1 flex items-center justify-start">
+              <Link
+                to="/"
+                className="inline-flex items-center gap-3 group active:scale-95 transition-transform duration-200"
+              >
+                <div className="w-12 h-12 rounded-full bg-black/80 border border-white/15 flex items-center justify-center shrink-0 shadow-xs group-hover:border-white/30 transition-colors">
+                  <img
+                    src={logo}
+                    alt="The Turing Club"
+                    className="w-9 h-9 object-contain transition-transform duration-300 group-hover:rotate-6"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-semibold text-sm sm:text-[15px] tracking-tight text-white leading-tight group-hover:text-primary-light transition-colors duration-200">
+                    The Turing Club
+                  </span>
+                  <span className="text-[10px] font-mono text-text-muted leading-none mt-0.5">
+                    JAIN (Deemed-to-be University)
+                  </span>
+                </div>
+              </Link>
+            </div>
 
-        <div className="flex flex-col gap-1 px-5 py-6">
-          {NAV_LINKS.map((link) => (
+            {/* Center section: Logo + Nav Items Floating Pill */}
+            <div className="flex items-center justify-center">
+              <CenterNavPill activeSection={activeSection} />
+            </div>
+
+            {/* Right section: Action / CTA Pill */}
+            <div className="flex-1 flex items-center justify-end">
+              <ActionPill />
+            </div>
+          </div>
+
+          {/* Mobile Unified Floating Pill Bar */}
+          <div className="md:hidden flex items-center justify-between glass-pill px-4 sm:px-5 py-2.5 sm:py-3 rounded-full shadow-2xl pointer-events-auto transition-all duration-300">
+            {/* Mobile Brand */}
             <Link
-              key={link.href}
-              to={link.href}
-              className="py-3 text-sm text-text-muted hover:text-text transition-colors border-b border-border/60"
-              onClick={() => setOpen(false)}
+              to="/"
+              className="flex items-center gap-3 group active:scale-95 transition-transform duration-200"
             >
-              {link.label}
+              <div className="w-9 h-9 rounded-full bg-black/80 border border-white/15 flex items-center justify-center shrink-0 shadow-xs group-hover:border-white/30 transition-colors">
+                <img
+                  src={logo}
+                  alt="The Turing Club"
+                  className="w-5.5 h-5.5 object-contain transition-transform duration-300 group-hover:rotate-6"
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="font-semibold text-sm sm:text-[15px] tracking-tight text-white leading-tight">
+                  The Turing Club
+                </span>
+                <span className="text-[10px] font-mono text-text-muted leading-none mt-0.5">
+                  JAIN (Deemed-to-be University)
+                </span>
+              </div>
             </Link>
-          ))}
-          <button className="w-full mt-6 px-4 py-3 bg-primary hover:bg-primary-light transition-colors rounded-md text-sm font-semibold">
-            Apply to Join
-          </button>
+
+            {/* Mobile Actions: Menu toggle button */}
+            <div className="flex items-center">
+              <button
+                onClick={() => setMobileOpen(!mobileOpen)}
+                className="p-1.5 rounded-full hover:bg-white/10 active:scale-90 text-text-muted hover:text-white transition-all duration-200"
+                aria-label="Toggle mobile menu"
+              >
+                <MenuToggleIcon open={mobileOpen} className="w-6 h-6 text-text-muted group-hover:text-white" duration={300} />
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
+      </header>
+
+      {/* Mobile Animated Glass Drawer */}
+      <MobileNavDrawer
+        isOpen={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        activeSection={activeSection}
+      />
     </>
   );
 }
