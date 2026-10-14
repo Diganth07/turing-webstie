@@ -11,17 +11,14 @@ const NAV_LINKS = [
 ];
 
 export default function MobileNavDrawer({ isOpen, onClose, activeSection }) {
-  const [hoveredId, setHoveredId] = useState(null);
-  const linksContainerRef = useRef(null);
   const itemRefs = useRef({});
   const [indicatorStyle, setIndicatorStyle] = useState({
     top: 0,
     height: 0,
     opacity: 0,
-    isHover: false,
   });
 
-  const targetId = hoveredId || activeSection || 'home';
+  const activeId = activeSection || 'home';
 
   // Lock body scroll when mobile drawer is open
   useEffect(() => {
@@ -31,30 +28,29 @@ export default function MobileNavDrawer({ isOpen, onClose, activeSection }) {
     };
   }, [isOpen]);
 
-  // Fluid sliding indicator calculation
+  // Fluid sliding active indicator calculation
   useEffect(() => {
     if (!isOpen) return;
 
     const updateIndicator = () => {
-      const targetEl = itemRefs.current[targetId];
+      const targetEl = itemRefs.current[activeId];
       if (targetEl) {
         setIndicatorStyle({
           top: targetEl.offsetTop,
           height: targetEl.offsetHeight,
           opacity: 1,
-          isHover: Boolean(hoveredId && hoveredId !== activeSection),
         });
       }
     };
 
     updateIndicator();
     const frame = requestAnimationFrame(updateIndicator);
-    const timer = setTimeout(updateIndicator, 60);
+    const timer = setTimeout(updateIndicator, 50);
     return () => {
       cancelAnimationFrame(frame);
       clearTimeout(timer);
     };
-  }, [isOpen, targetId, hoveredId, activeSection]);
+  }, [isOpen, activeId]);
 
   if (!isOpen) return null;
 
@@ -96,19 +92,11 @@ export default function MobileNavDrawer({ isOpen, onClose, activeSection }) {
           </button>
         </div>
 
-        {/* Navigation list with fluid sliding vertical indicator */}
-        <div
-          ref={linksContainerRef}
-          onMouseLeave={() => setHoveredId(null)}
-          className="relative flex flex-col gap-1.5 py-3"
-        >
-          {/* Fluid vertical sliding active pill */}
+        {/* Navigation list with zero-padding container so offsetTop starts at 0 */}
+        <div className="relative flex flex-col gap-1.5 my-3">
+          {/* Fluid vertical sliding active pill — perfectly synced with activeSection */}
           <div
-            className={`absolute inset-x-0 rounded-2xl pointer-events-none transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-              indicatorStyle.isHover
-                ? 'bg-white/[0.08] border border-white/10 shadow-xs shadow-white/5'
-                : 'bg-white/[0.14] border border-white/20 shadow-inner shadow-white/10 backdrop-blur-sm'
-            }`}
+            className="absolute inset-x-0 rounded-2xl pointer-events-none transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] bg-white/[0.12] border border-white/15 shadow-inner backdrop-blur-sm"
             style={{
               transform: `translate3d(0, ${indicatorStyle.top}px, 0)`,
               height: `${indicatorStyle.height}px`,
@@ -117,7 +105,7 @@ export default function MobileNavDrawer({ isOpen, onClose, activeSection }) {
           />
 
           {NAV_LINKS.map((link) => {
-            const isActive = activeSection === link.id;
+            const isActive = activeId === link.id;
 
             return (
               <Link
@@ -126,12 +114,11 @@ export default function MobileNavDrawer({ isOpen, onClose, activeSection }) {
                 ref={(el) => {
                   if (el) itemRefs.current[link.id] = el;
                 }}
-                onMouseEnter={() => setHoveredId(link.id)}
                 onClick={onClose}
-                className={`relative z-10 flex items-center justify-between px-4 py-3 rounded-2xl text-[15px] sm:text-base font-medium transition-colors duration-200 select-none ${
+                className={`relative z-10 flex items-center justify-between px-4 py-3.5 rounded-2xl text-[15px] sm:text-base font-medium transition-all duration-200 select-none ${
                   isActive
                     ? 'text-white font-semibold'
-                    : 'text-text-muted hover:text-white'
+                    : 'text-text-muted hover:text-white hover:bg-white/[0.04] active:scale-[0.98]'
                 }`}
               >
                 <span>{link.label}</span>
