@@ -20,7 +20,7 @@ This list is maintained by hand alongside the GitHub [contributors graph](https:
   - Add Dheeksharambh 2025 and 2026 events, bid & byte events and cybersecurity workshop data.([#13](https://github.com/TheTuringClubJU/turing-webstie/pull/13))
 - Subham ([@subham-OPS08](https://github.com/subham-OPS08))
   - Implemented generic tabbed hiring results page, created results data registry, and removed home-page results entry points and stale pending copy ([#18](https://github.com/TheTuringClubJU/turing-webstie/pull/18))
-- Swapnil Ghosh ([@swapnilg](https://github.com/swapnilg))
+- Swapnil Ghosh ([@Swapnil-Ghosh06](https://github.com/swapnilg))
   - Added Hiring 1st Year Students event card with Read More page, extended details section, 6 event photos, and results JSON (Task B) ([#PR](https://github.com/TheTuringClubJU/turing-webstie/pulls))
   - Modernized navigation UI with modular floating 3-pill layout, active scroll-spy, glassmorphism, radar status indicators, and animated mobile drawer
 
