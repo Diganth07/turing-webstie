@@ -76,7 +76,7 @@ export default function MobileNavDrawer({ isOpen, onClose, activeSection }) {
                 The Turing Club
               </span>
               <span className="text-[10px] sm:text-[11px] font-mono text-text-muted mt-0.5 block">
-                Jain (Deemed-to-be) University
+                JAIN (Deemed-to-be University)
               </span>
             </div>
           </div>

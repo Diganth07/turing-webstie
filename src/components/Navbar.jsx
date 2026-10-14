@@ -5,6 +5,7 @@ import { useActiveSection } from './navbar/useActiveSection';
 import CenterNavPill from './navbar/CenterNavPill';
 import ActionPill from './navbar/ActionPill';
 import MobileNavDrawer from './navbar/MobileNavDrawer';
+import MenuToggleIcon from './navbar/MenuToggleIcon';
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -53,7 +54,7 @@ export default function Navbar() {
                   The Turing Club
                 </span>
                 <span className="text-[10px] font-mono text-text-muted leading-none mt-0.5">
-                  Jain University
+                  JAIN (Deemed-to-be University)
                 </span>
               </div>
             </Link>
@@ -61,19 +62,11 @@ export default function Navbar() {
             {/* Mobile Actions: Menu toggle button */}
             <div className="flex items-center">
               <button
-                onClick={() => setMobileOpen(true)}
-                className="p-2 rounded-full hover:bg-white/10 active:scale-90 text-text-muted hover:text-white transition-all duration-200"
-                aria-label="Open mobile menu"
+                onClick={() => setMobileOpen(!mobileOpen)}
+                className="p-1.5 rounded-full hover:bg-white/10 active:scale-90 text-text-muted hover:text-white transition-all duration-200"
+                aria-label="Toggle mobile menu"
               >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="w-5.5 h-5.5"
-                >
-                  <path d="M4 7h16M4 12h16M4 17h16" strokeLinecap="round" />
-                </svg>
+                <MenuToggleIcon open={mobileOpen} className="w-6 h-6 text-text-muted group-hover:text-white" duration={300} />
               </button>
             </div>
           </div>
