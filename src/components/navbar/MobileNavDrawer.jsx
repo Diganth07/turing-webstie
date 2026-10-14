@@ -68,8 +68,8 @@ export default function MobileNavDrawer({ isOpen, onClose, activeSection }) {
         {/* Header inside modal */}
         <div className="flex items-center justify-between pb-4 border-b border-white/10">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-black/80 border border-white/15 flex items-center justify-center shrink-0 shadow-xs">
-              <img src={logo} alt="The Turing Club" className="w-5.5 h-5.5 object-contain" />
+            <div className="w-11 h-11 rounded-full bg-black/80 border border-white/15 flex items-center justify-center shrink-0 shadow-xs">
+              <img src={logo} alt="The Turing Club" className="w-8 h-8 object-contain" />
             </div>
             <div>
               <span className="font-semibold text-sm sm:text-base tracking-tight text-white block leading-tight">

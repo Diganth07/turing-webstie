@@ -27,11 +27,11 @@ export default function Navbar() {
                 to="/"
                 className="inline-flex items-center gap-3 group active:scale-95 transition-transform duration-200"
               >
-                <div className="w-9 h-9 rounded-full bg-black/80 border border-white/15 flex items-center justify-center shrink-0 shadow-xs group-hover:border-white/30 transition-colors">
+                <div className="w-12 h-12 rounded-full bg-black/80 border border-white/15 flex items-center justify-center shrink-0 shadow-xs group-hover:border-white/30 transition-colors">
                   <img
                     src={logo}
                     alt="The Turing Club"
-                    className="w-5.5 h-5.5 object-contain transition-transform duration-300 group-hover:rotate-6"
+                    className="w-9 h-9 object-contain transition-transform duration-300 group-hover:rotate-6"
                   />
                 </div>
                 <div className="flex flex-col">
