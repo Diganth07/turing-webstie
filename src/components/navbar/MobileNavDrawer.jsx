@@ -43,7 +43,7 @@ export default function MobileNavDrawer({ isOpen, onClose, activeSection }) {
                 The Turing Club
               </span>
               <span className="text-[10px] font-mono text-text-muted">
-                Jadavpur University
+                Jain (Deemed-to-be) University
               </span>
             </div>
           </div>
