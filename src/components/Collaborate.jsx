@@ -29,7 +29,6 @@ export default function Collaborate() {
         <div className="relative max-w-7xl mx-auto px-5 md:px-10 py-16 md:py-24">
           {/* Section label */}
           <div className="inline-flex items-center gap-2 mb-8 px-3 py-1.5 border border-border rounded-full text-xs font-mono tracking-widest text-text-muted uppercase">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary-light animate-pulse" />
             Collaborate Together
           </div>
 
