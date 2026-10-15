@@ -7,6 +7,7 @@ const NAV_LINKS = [
   { label: 'What We Do', href: '/#what-we-do', id: 'what-we-do' },
   { label: 'Events', href: '/#events', id: 'events' },
   { label: 'Leaders', href: '/#leaders', id: 'leaders' },
+  { label: 'Collaborate', href: '/#collaborate', id: 'collaborate' },
 ];
 
 export default function CenterNavPill({ activeSection }) {
