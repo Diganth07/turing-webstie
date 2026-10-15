@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-export function useActiveSection(sectionIds = ['home', 'about', 'what-we-do', 'events', 'leaders']) {
+export function useActiveSection(sectionIds = ['home', 'about', 'what-we-do', 'events', 'leaders', 'collaborate']) {
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
