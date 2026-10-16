@@ -64,7 +64,7 @@ export default function MobileNavDrawer({ isOpen, onClose, activeSection }) {
         aria-hidden="true"
       />
 
-      {/* Floating Glassmorphism Modal Panel with spring entrance */}
+      {/* Floating glass modal panel with spring entrance */}
       <div className="fixed top-3.5 inset-x-3.5 sm:inset-x-6 max-w-md mx-auto z-[80] glass-pill rounded-3xl p-5 sm:p-6 shadow-2xl shadow-black/90 animate-in zoom-in-95 duration-250 ease-out">
         {/* Header inside modal */}
         <div className="flex items-center justify-between pb-4 border-b border-white/10">
