@@ -67,7 +67,7 @@ export default function Collaborate() {
                 let&apos;s build high-impact hackathons and events together.
               </p>
 
-              {/* Dual Action Buttons (White Pill + Primary Blue Pill) with subtle email below */}
+              {/* Action Button (White Pill) with subtle email below */}
               <div className="flex flex-col gap-3">
                 <div className="flex flex-wrap items-center gap-3.5">
                   <button
@@ -76,14 +76,6 @@ export default function Collaborate() {
                     className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white hover:bg-white/90 text-black font-semibold text-sm tracking-tight transition-all duration-200 shadow-lg shadow-white/10 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                   >
                     <span>Get started today</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => openWithTrack('sponsorship')}
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-primary hover:bg-primary-light text-white font-semibold text-sm tracking-tight transition-all duration-200 shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-                  >
-                    <span>Our plans</span>
                   </button>
                 </div>
 
