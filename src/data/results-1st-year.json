@@ -5,23 +5,48 @@
   "domains": {
     "tech": {
       "label": "Tech",
-      "selected": []
+      "selected": [
+        { "name": "Ishan Gupta", "year": "1st", "usn": "JUUG26BTECH15128" },
+        { "name": "Venugopal Yelaburgi", "year": "2nd", "usn": "25BTRBT052" },
+        { "name": "R Hari Priya", "year": "2nd", "usn": "25BTRCA046" }
+      ]
     },
     "design": {
       "label": "Design",
-      "selected": []
+      "selected": [
+        { "name": "Kamya", "year": "2nd", "usn": "25BTRCL104" },
+        { "name": "Venugopal", "year": "2nd", "usn": "25BTRBT052" },
+        { "name": "Tashvi", "year": "2nd", "usn": "25BTRCL271" }
+      ]
     },
     "photography": {
       "label": "Photography",
-      "selected": []
+      "selected": [
+        { "name": "Praveen Kumar N", "year": "2nd", "usn": "25BTRCL195" },
+        { "name": "Prithivi Rajan P", "year": "2nd", "usn": "25BTRCN087" }
+      ]
     },
     "marketing": {
       "label": "Marketing",
-      "selected": []
+      "selected": [
+        { "name": "Maithri M", "year": "1st", "usn": "26BTRCL217" },
+        { "name": "Abhyuday Singh", "year": "1st", "usn": "26BTRCL017" },
+        { "name": "Ansel Justin", "year": "2nd", "usn": "25BTRCN136" },
+        { "name": "Abhinav Chaudhary", "year": "1st", "usn": "26BTRCL015" },
+        { "name": "Laksh Singh", "year": "1st", "usn": "26BTRCO023" },
+        { "name": "Harsh Chaudhary", "year": "1st", "usn": "26BTRC0016" },
+        { "name": "Ayush Kumar", "year": "1st", "usn": "26BTRCL065" }
+      ]
     },
     "social-media": {
       "label": "Social Media",
-      "selected": []
+      "selected": [
+        { "name": "R Hari Priya", "year": "2nd", "usn": "25BTRCA046", "program": "CSE AI A" },
+        { "name": "Arya Vishwakarma", "year": "1st", "usn": "26BTRCL054", "program": "AIML" },
+        { "name": "T Yasho Keerthi", "year": "1st", "usn": "26BTRCL407", "program": "CSE AI ML G" },
+        { "name": "Amber Naik", "year": "1st", "usn": "26BTRCL035" },
+        { "name": "Aayushman Shrivastava", "year": "2nd", "usn": "25BTRCF001", "program": "CTIS" }
+      ]
     }
   }
 }
