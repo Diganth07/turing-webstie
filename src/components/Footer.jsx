@@ -6,6 +6,7 @@ const QUICK_LINKS = [
   { label: 'What We Do', href: '#what-we-do' },
   { label: 'Events', href: '#events' },
   { label: 'Leaders', href: '#leaders' },
+  { label: 'Collaborate', href: '#collaborate' },
 ];
 
 const SOCIALS = [
@@ -31,7 +32,7 @@ const SOCIALS = [
   },
   {
     label: 'Email',
-    href: 'mailto:turingclub@jainuniversity.ac.in',
+    href: 'mailto:ttclub.ju@gmail.com',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4.5 h-4.5">
         <rect x="3" y="5" width="18" height="14" rx="2" />

@@ -7,6 +7,7 @@ import Events from '../components/Events';
 import UpcomingEvents from '../components/UpcomingEvents';
 import Achievements from '../components/Achievements';
 import Leaders from '../components/Leaders';
+import Collaborate from '../components/Collaborate';
 
 export default function Home() {
   const location = useLocation();
@@ -32,6 +33,7 @@ export default function Home() {
       <UpcomingEvents />
       <Achievements />
       <Leaders />
+      <Collaborate />
     </>
   );
 }
