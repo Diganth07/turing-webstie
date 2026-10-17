@@ -1,0 +1,4 @@
+# Used by the schema tests and CI lint. The backend (FastAPI etc.) will add its own packages here later.
+psycopg[binary]==3.2.3
+pytest==8.3.4
+ruff==0.17.1
