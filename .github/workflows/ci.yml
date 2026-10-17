@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main, "feat/**"]
+  push:
+    branches: [main, "feat/**"]
+
+# A newer push to the same branch cancels the older run.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  frontend:
+    name: Frontend (lint + build)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test --if-present
+      - run: npm run build
+
+  apply-service:
+    name: apply-service (lint + schema tests)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apply-service
+    env:
+      # The tests create their own temporary database on this server and drop it afterwards.
+      # Points at the local Postgres installed below, never at Neon.
+      TEST_DATABASE_URL: postgresql://apply:apply@localhost/postgres
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: apply-service/requirements.txt
+
+      - name: Install and start PostgreSQL
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql
+          sudo systemctl start postgresql
+          for i in $(seq 1 15); do
+            sudo -u postgres pg_isready && break
+            sleep 2
+          done
+          sudo -u postgres psql -c "CREATE USER apply WITH PASSWORD 'apply' CREATEDB"
+          sudo -u postgres psql -c "CREATE DATABASE apply_psql_check OWNER apply"
+
+      - name: Install Python packages
+        run: pip install -r requirements.txt
+
+      - name: Lint
+        run: ruff check .
+
+      - name: Schema tests
+        run: pytest
+
+      - name: schema.sql applies cleanly with psql (twice, like on Neon)
+        run: |
+          URL=postgresql://apply:apply@localhost/apply_psql_check
+          psql -v ON_ERROR_STOP=1 "$URL" -f db/schema.sql
+          psql -v ON_ERROR_STOP=1 "$URL" -f db/schema.sql
