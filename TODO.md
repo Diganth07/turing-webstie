@@ -247,7 +247,7 @@ Today "Apply to Join" does nothing useful: the Hero button is a plain `<button>`
 
 | Person | Area | In one line |
 |---|---|---|
-| **Darsh** (lead) | Database, storage, email, CI/CD | Neon DB + schema + migrations, MinIO, Brevo email, GitHub Actions, deployment, final merge to `main` |
+| **Darsh** (lead) | Database, storage, email, CI/CD | Neon DB + schema, MinIO, Brevo email, GitHub Actions, deployment, final merge to `main` |
 | **Subham** | Frontend | `/apply` page and form UI, validation, success/error states, rewire every "Apply to Join" button |
 | **Diganth** | Backend | FastAPI app, the submit endpoint, validation, duplicate handling, rate limiting, backend tests |
 | **Krishnapriya** | Integration | Connect frontend to backend for real, error mapping, env/CORS, full-stack local setup, end-to-end + contract tests |
@@ -274,17 +274,51 @@ Today "Apply to Join" does nothing useful: the Hero button is a plain `<button>`
 
 | Can start immediately | Needs something first |
 |---|---|
-| Darsh: **D0** provisioning, **D1** CI/infra | Darsh **D2** schema: needs **B1** (backend folder exists) |
-| Diganth: **B1** backend scaffold | Darsh **D3** MinIO code, **D4** email code: need **B1** |
-| Subham: **S1** form UI (against a mock API) | Diganth **B2** endpoint: needs **B1**, **D2** (models); uses stand-ins for **D3/D4** until they land |
-| | Diganth **B3**: needs **B2**, **D3**, **D4** |
+| Darsh: **D0** provisioning, **D1** CI/infra, **D2** database schema (already built in `apply-service/db/schema.sql`, goes straight to `main`) | Darsh **D3** MinIO code, **D4** email code: need **B1** |
+| Diganth: **B1** backend scaffold | Diganth **B2** endpoint: needs **B1** and **D2** (the schema); uses stand-ins for **D3/D4** until they land |
+| Subham: **S1** form UI (against a mock API) | Diganth **B3**: needs **B2**, **D3**, **D4** |
 | | Subham **S2** entry points: needs **S1** |
 | | Krishnapriya **I1**: needs **S1** + **B2**; **I2**: needs **I1** + **D1** |
 | | Darsh **D5** deploy: needs **B1**, **D2**; **D6** final merge: needs everything |
 
-Parallel start: **D0/D1, B1 and S1 begin on day one.** Services (D3, D4) are written against the interfaces below, so B2 does not have to wait for them.
+Parallel start: **D0/D1/D2, B1 and S1 begin on day one.** Services (D3, D4) are written against the interfaces below, so B2 does not have to wait for them.
 
 ---
+
+### Folder structure (agreed target; the owner is in brackets)
+
+```
+turing-club/
+├── .github/
+│   └── workflows/
+│       └── ci.yml                         [Darsh, D1]
+├── apply-service/
+│   ├── app/
+│   │   ├── main.py                        FastAPI app, CORS, error handlers, routes [Diganth]
+│   │   ├── config.py                      settings from environment variables [Diganth]
+│   │   ├── schemas.py                     request/response models and validation rules [Diganth]
+│   │   └── services/
+│   │       ├── application_service.py     submit flow: validate, duplicate check, storage, DB, email [Diganth]
+│   │       ├── storage.py                 MinIO upload / delete / presigned URL [Darsh, D3]
+│   │       └── email.py                   Brevo SMTP confirmation email [Darsh, D4]
+│   ├── db/
+│   │   └── schema.sql                     database schema [Darsh, D2, done]
+│   ├── tests/
+│   │   ├── conftest.py, helpers.py        shared test setup [Darsh, exists; Diganth adds fixtures]
+│   │   ├── test_schema.py                 schema tests [Darsh, exists]
+│   │   └── test_*.py                      API regression tests [Diganth]
+│   ├── .env.example  .gitignore  pytest.ini     (exist)
+│   ├── requirements.txt
+│   └── README.md
+├── src/                                   existing frontend; only adds the Apply page and API client
+│   ├── pages/Apply.jsx                    [Subham, S1]
+│   └── api/applications.js                mock first [Subham], real fetch [Krishnapriya]
+├── public/
+├── package.json
+└── vite.config.js
+```
+
+Additions to the sketch the team agreed on: `app/config.py`, `app/services/storage.py`, `app/services/email.py`, `db/schema.sql` and the existing test and config files. Database queries live inside `application_service.py`; if that file gets too big, split them into `app/db.py` and tell Darsh.
 
 ### Shared contracts (everyone codes against these; change them only after telling the team)
 
@@ -360,12 +394,12 @@ The `cycle` column lets the same student apply again in a later audition without
 #### 5. Service interfaces (Darsh implements, Diganth calls)
 
 ```python
-# backend/app/services/storage.py   (MinIO)
+# apply-service/app/services/storage.py   (MinIO)
 def upload_resume(application_id: str, cycle: str, data: bytes) -> str: ...   # returns object key
 def delete_resume(object_key: str) -> None: ...
 def presigned_resume_url(object_key: str, expires_seconds: int = 300) -> str: ...
 
-# backend/app/services/email.py     (Brevo SMTP)
+# apply-service/app/services/email.py     (Brevo SMTP)
 def send_confirmation_email(to: str, name: str, domains: list[str]) -> None: ...  # raises on failure
 ```
 
@@ -376,7 +410,7 @@ Until D3 and D4 merge, Diganth uses simple fakes with these exact signatures so 
 | Variable | Used by | Notes |
 |---|---|---|
 | `DATABASE_URL` | backend | Neon **pooled** connection string, `sslmode=require` |
-| `DATABASE_URL_DIRECT` | migrations | Neon **direct** (non-pooled) string, used only to run migrations |
+| `DATABASE_URL_DIRECT` | schema setup | Neon **direct** (non-pooled) string, used only to run `db/schema.sql` and any later `ALTER` scripts |
 | `MINIO_ENDPOINT`, `MINIO_ACCESS_KEY`, `MINIO_SECRET_KEY`, `MINIO_BUCKET`, `MINIO_SECURE` | backend | Bucket is `resumes`. Use a dedicated service account, not the root user |
 | `BREVO_SMTP_HOST`, `BREVO_SMTP_PORT`, `BREVO_SMTP_LOGIN`, `BREVO_SMTP_KEY` | backend | Brevo SMTP relay; the **SMTP key**, not the account password |
 | `EMAIL_FROM`, `EMAIL_FROM_NAME` | backend | Must be a sender verified in Brevo |
@@ -393,42 +427,41 @@ Each side commits a `.env.example` listing these with fake values.
 
 **D0. Provisioning (no PR, do this first)**
 - [ ] Create the Neon project. Use separate Neon **branches** (or projects) for `production`, `dev` and, optionally, throwaway CI testing. Note both the pooled and direct connection strings.
-- [ ] Stand up MinIO (a server or container you control). Create the private bucket `resumes` (no public read). Create a service account limited to that bucket and keep the root credentials to yourself.
+- [ ] Stand up MinIO (a server you control). Create the private bucket `resumes` (no public read). Create a service account limited to that bucket and keep the root credentials to yourself.
 - [ ] Create the Brevo account, generate an **SMTP key**, and verify the sender. Authenticate the sending domain (SPF, DKIM, DMARC) so the thank-you mails don't land in spam. Check the current free-plan daily sending limit.
 - [ ] Decide where the backend runs and create the GitHub issues for every PR below.
 - [ ] Create `feat/apply-form`, and enable branch protection on it (CI required, 1 review).
 - [ ] Put real credentials into GitHub Secrets / your password manager and share per-person dev credentials safely.
 
-**D1. PR `chore/apply-ci-infra`** (base: `feat/apply-form`)
-- [ ] `.github/workflows/ci.yml`, triggered on pull requests into **both `main` and `feat/apply-form`**, and on pushes to those branches:
-  - Frontend job: `npm ci`, `npm run lint`, `npm run build` (and `npm test` once Subham adds it).
-  - Backend job: Python setup, install, `ruff check`, `pytest`. Runs against **service containers** (Postgres + MinIO) so tests are fast and don't touch Neon. Skip until `backend/` exists.
-- [ ] `docker-compose.yml` at repo root: local Postgres + MinIO (with a bucket-init step) so anyone can run the stack with one command.
+**D1. CI** (the workflow file is already written and tested, see `.github/workflows/ci.yml`; no Docker anywhere in this project)
+- [ ] Commit `.github/workflows/ci.yml`. It runs on pull requests into, and pushes to, `main` and any `feat/**` branch:
+  - **Frontend job:** `npm ci`, `npm run lint`, `npm test` (only if the script exists), `npm run build`.
+  - **apply-service job:** installs PostgreSQL directly on the CI runner (no Docker), starts a local Postgres, installs `requirements.txt`, runs `ruff check` and `pytest` (the schema tests), then applies `db/schema.sql` twice with `psql` the way you do on Neon. It never touches Neon.
+  - MinIO tests (D3) will be added to this job later, also without Docker (run the MinIO server binary on the runner).
+- [ ] On GitHub: Settings, Branches, add a rule for `main` that requires the two CI checks (**Frontend (lint + build)** and **apply-service (lint + schema tests)**) to pass before merging.
 - [ ] `.env.example` at root (backend vars) and a frontend `.env.example`.
-- [ ] Update `.github/CODEOWNERS` to cover `/backend` and `/.github`.
-- [ ] Update `CONTRIBUTING.md` / PR template with the integration-branch flow.
-- [ ] Add a "Run it locally" section to `README.md`.
-- Done when: a test PR shows the CI checks running and required.
+- [ ] Commit the updated `.github/CODEOWNERS` (`/.github/` and `/apply-service/db/` are Darsh only).
+- Done when: a test PR shows both CI checks running and green, and `main` requires them.
 
-**D2. PR `feat/apply-db-schema`** (needs B1 merged)
-- [ ] SQLAlchemy models in `backend/app/db/models.py` matching the schema above exactly.
-- [ ] Alembic set up in `backend/alembic/`; first migration creates both tables, the unique constraint and the domain index.
-- [ ] Run migrations on the **direct** URL. Test the app on the **pooled** URL and watch for prepared-statement errors with async drivers (the pooler can cause them).
-- [ ] Handle Neon's auto-suspend: the first connection after idle is slow, so use connection retries / sensible timeouts.
-- [ ] CI step: `alembic upgrade head` on the service Postgres, plus `alembic check` so **model/migration drift fails the build**.
-- [ ] Apply to Neon `dev`, then (later) `production`.
-- Done when: a fresh empty database goes to the full schema with one command, in CI and on Neon dev.
+**D2. Database schema** (committed straight to `main`, no PR; built and tested already, see `apply-service/db/schema.sql`)
+- [ ] Commit the `apply-service/` folder (`db/schema.sql`, `tests/`, `README.md`, `requirements.txt`, `pytest.ini`, `.env.example`, `.gitignore`) to `main`.
+- [ ] Run `db/schema.sql` on the Neon **dev** branch using the **direct** URL (Neon SQL Editor or `psql -f`), then on production when ready. The file is safe to re-run and applies all-or-nothing.
+- [ ] Add a CI step that runs `pytest` in `apply-service/` against the service Postgres (the schema tests).
+- [ ] Note for Diganth: test the app on the **pooled** URL and watch for prepared-statement errors with async drivers (the pooler can cause them).
+- [ ] Note for Diganth: Neon auto-suspends, so the first connection after idle is slow. Use connection retries / sensible timeouts.
+- Rules for later changes: `schema.sql` always describes the final schema. Once tables exist on Neon, changes need matching `ALTER TABLE` statements run on dev, then production, plus an updated test in `apply-service/tests/test_schema.py`.
+- Done when: a fresh empty database gets the full schema by running one file, in CI and on Neon dev, and the schema tests pass.
 
 **D3. PR `feat/apply-minio-storage`** (needs B1 merged)
-- [ ] Implement `backend/app/services/storage.py` per the interface above.
+- [ ] Implement `apply-service/app/services/storage.py` per the interface above.
 - [ ] Object key format: `resumes/{cycle}/{application_id}.pdf`. **Never** put the user's filename in the key.
 - [ ] Short-lived presigned URLs for viewing a resume; the bucket stays private; the frontend never talks to MinIO.
 - [ ] Script/step to create the bucket idempotently.
-- [ ] Tests against the MinIO service container: upload, delete, presigned URL works, missing object handled.
+- [ ] Tests against a real MinIO server: upload, delete, presigned URL works, missing object handled.
 - Done when: the tests pass in CI and a resume uploaded locally can be fetched with a presigned link.
 
 **D4. PR `feat/apply-brevo-email`** (needs B1 merged)
-- [ ] Implement `backend/app/services/email.py` using Brevo SMTP (host `smtp-relay.brevo.com`, port 587, STARTTLS).
+- [ ] Implement `apply-service/app/services/email.py` using Brevo SMTP (host `smtp-relay.brevo.com`, port 587, STARTTLS).
 - [ ] Email content: thank the applicant for registering and say we'll update them when the next auditions are announced. Mention their name and chosen domains. Provide both HTML and plain-text versions. Subject example: "Thanks for applying to The Turing Club".
 - [ ] Sent to the **personal email**. The function raises on failure; the caller decides what to do (see B3).
 - [ ] Tests with a mocked/fake SMTP server (no real emails in CI), covering success, auth failure and timeout.
@@ -436,8 +469,8 @@ Each side commits a `.env.example` listing these with fake values.
 - Done when: tests pass and a real test mail arrives with correct sender and content.
 
 **D5. PR `chore/apply-cd`** (needs B1, D2)
-- [ ] Backend `Dockerfile` and a deploy workflow that runs on merge to `main` (not on the feature branch).
-- [ ] The deploy step runs migrations before starting the new version.
+- [ ] A backend deploy workflow that runs on merge to `main`. No Docker; what it looks like depends on where the backend is hosted (decide this first).
+- [ ] If a release includes schema changes (`ALTER` scripts), they are applied to the production database before the new version starts.
 - [ ] Production env vars/secrets configured on the host; `CORS_ORIGINS` set to the real site; `VITE_API_BASE_URL` set on the frontend host.
 - [ ] Post-deploy smoke test hitting `/api/v1/health`.
 - [ ] Write down how to roll back.
@@ -480,22 +513,22 @@ All design must use the tokens from `src/index.css` (`bg-surface`, `border-borde
 
 ### DIGANTH: backend (FastAPI)
 
-You own the API layer: routes, request validation, business flow. You do **not** write the DB models, MinIO code or email code (Darsh does, per the interfaces above); use fakes with the same signatures until those merge.
+You own the API layer: routes, request validation, business flow. You do **not** write the database schema, MinIO code or email code (Darsh does, per the interfaces above); use fakes with the same signatures until those merge.
 
 **B1. PR `feat/apply-backend-scaffold`** (base: `feat/apply-form`; start immediately)
-- [ ] Create `backend/` with: FastAPI app (`backend/app/main.py`), settings loaded from environment variables (pydantic settings) using the variable names in the contract, `requirements.txt` with pinned versions, a `ruff.toml` and a `pytest.ini`.
+- [ ] Inside the existing `apply-service/` folder add: the FastAPI app in `app/main.py`, settings loaded from environment variables in `app/config.py` (pydantic settings) using the variable names in the contract, your packages added (pinned) to the existing `requirements.txt`, and a `ruff.toml`. `pytest.ini` already exists.
 - [ ] `GET /api/v1/health`.
 - [ ] CORS middleware using `CORS_ORIGINS` (explicit origins, no `*`).
 - [ ] Global error handlers that produce the contract's response shapes (`validation_error` with a `fields` map, `server_error`, etc.), replacing FastAPI's default 422 body.
 - [ ] The shared fixtures and the **Group 1 tests** from "Mandatory regression tests (Diganth)" below.
-- [ ] Folder layout that keeps Darsh's files separate: `app/db/` (Darsh), `app/services/storage.py` and `app/services/email.py` (Darsh), `app/api/`, `app/schemas/`, `app/core/` (yours).
-- Done when: `uvicorn` starts, `/api/v1/health` works, `pytest` and `ruff` pass in CI. **Merge this quickly; Darsh's D2, D3, D4 are waiting on it.**
+- [ ] Follow the "Folder structure" section above. Yours: `app/main.py`, `app/config.py`, `app/schemas.py`, `app/services/application_service.py` and the API test files. Darsh's, don't edit: `app/services/storage.py`, `app/services/email.py`, `db/schema.sql`, `tests/test_schema.py`.
+- Done when: `uvicorn` starts, `/api/v1/health` works, `pytest` and `ruff` pass in CI. **Merge this quickly; Darsh's D3 and D4 are waiting on it.**
 
 **B2. PR `feat/apply-submit-endpoint`** (needs B1 + D2)
 - [ ] `POST /api/v1/applications` per the contract: multipart form with repeated `domains` field and a `resume` file.
-- [ ] Pydantic schemas implementing every rule in the field rules table: trimming, uppercase USN, lowercase emails, mobile normalization to 10 digits, domain whitelist, no duplicate domains.
+- [ ] Pydantic schemas in `app/schemas.py` implementing every rule in the field rules table: trimming, uppercase USN, lowercase emails, mobile normalization to 10 digits, domain whitelist, no duplicate domains.
 - [ ] Resume checks: reject non-PDF (check the `%PDF-` signature, not only the extension), reject empty files, reject files over `MAX_RESUME_MB` (return `413`; don't read an unbounded upload into memory).
-- [ ] Flow, in this order: validate, check duplicate (`usn` + `cycle`), upload resume via `storage.upload_resume`, insert application and domain rows in **one transaction**, return `201`.
+- [ ] Flow in `app/services/application_service.py`, in this order: validate, check duplicate (`usn` + `cycle`), upload resume via `storage.upload_resume`, insert application and domain rows in **one transaction**, return `201`. The route in `app/main.py` only calls this function.
 - [ ] If the DB insert fails after the upload, **delete the uploaded object** (`storage.delete_resume`) so no orphan files remain.
 - [ ] Two simultaneous submissions from the same USN must not both succeed: rely on the DB unique constraint, catch the integrity error and return `409`.
 - [ ] Do not log personal data (names, USN, phones, emails). Log the application `id` only.
@@ -515,16 +548,16 @@ These tests are **required**. A backend PR cannot merge into `feat/apply-form` u
 
 - **No `skip`, `xfail` or deleting** a mandatory test without Darsh's approval. Parametrized cases (`@pytest.mark.parametrize`) count as one test with many cases, and are encouraged for the "many examples" tests.
 - Use the names below (or an obviously equivalent name, mapped in the PR description in a small table: test name to ticked/passing).
-- **Run against real Postgres** (CI service container). Storage and email are replaced by in-memory fakes (`fake_storage`, `fake_email`) that record calls and can be told to fail or be slow.
+- **Run against real Postgres** (Postgres installed on the CI runner). Storage and email are replaced by in-memory fakes (`fake_storage`, `fake_email`) that record calls and can be told to fail or be slow.
 - **No real emails, no real MinIO writes, never the production Neon DB** in these tests.
 - **Every bug found later gets a new regression test in the same PR that fixes it.**
 - Test boundaries (min/max lengths, size limit) must use the constants from the settings module, not copied numbers, so a limit can change without rewriting tests.
-- _Not covered here:_ migrations and schema (Darsh's D2), the real MinIO and real SMTP code (Darsh's D3 and D4), and browser/e2e flows (Krishnapriya's I2).
+- _Not covered here:_ the database schema (Darsh's D2), the real MinIO and real SMTP code (Darsh's D3 and D4), and browser/e2e flows (Krishnapriya's I2).
 
-**Files** (under `backend/tests/`): `conftest.py`, `test_health_config_errors.py`, `test_validation.py`, `test_resume.py`, `test_save_flow.py`, `test_duplicates.py`, `test_privacy_security.py`, `test_email.py`, `test_rate_limit.py`, `test_full_flows.py`.
+**Files** (under `apply-service/tests/`): `conftest.py`, `test_health_config_errors.py`, `test_validation.py`, `test_resume.py`, `test_save_flow.py`, `test_duplicates.py`, `test_privacy_security.py`, `test_email.py`, `test_rate_limit.py`, `test_full_flows.py`.
 
 **Fixtures in `conftest.py`** (B1/B2):
-- [ ] `client` (FastAPI test client) and a **real Postgres test database** with each test isolated (rollback or truncate).
+- [ ] `client` (FastAPI test client). A **real Postgres test database** setup already exists in `apply-service/tests/conftest.py` (`db_url`, `conn`). `TEST_DATABASE_URL` points at a local Postgres **server**; each test run creates a temporary database from `db/schema.sql` and drops it automatically. **Add your fixtures to that file; don't replace it.** Each test must stay isolated (rollback or truncate).
 - [ ] `fake_storage`: in-memory, records `upload_resume` / `delete_resume` calls, can raise on demand.
 - [ ] `fake_email`: records calls (`to`, `name`, `domains`), can raise or sleep on demand.
 - [ ] `valid_payload()`: a complete valid form dict that tests then tweak one field at a time.
@@ -704,7 +737,7 @@ You make sure the frontend and backend actually work **together**, and that they
 - Done when: submitting the real form on your machine creates a row, uploads the resume and shows the success screen, and each error state shows correctly.
 
 **I2. PR `test/apply-e2e`** (needs I1 + D1)
-- [ ] Full-stack run with `docker-compose` (Postgres + MinIO + backend + frontend), documented in the README.
+- [ ] Full-stack run on a developer machine (Postgres + MinIO + backend + frontend, started without Docker), with the steps documented in the README.
 - [ ] End-to-end tests (Playwright suggested): fill and submit the form with a real PDF, assert the success screen; assert a row in `applications` and `application_domains`, the object exists in MinIO, and the confirmation email was triggered (use a fake SMTP in this environment).
 - [ ] End-to-end error cases: duplicate USN, non-PDF, oversized file, no domain selected, backend down.
 - [ ] **Contract test**: one test that fails if the frontend's domain list/keys and the backend's allowed domains ever differ.
@@ -715,7 +748,7 @@ You make sure the frontend and backend actually work **together**, and that they
 
 ### Testing (regression safety, shared)
 
-- **Backend** (Diganth writes, Darsh's CI runs): pytest with the real Postgres + MinIO service containers. Cover every field rule, all error statuses, duplicate and race handling, resume cleanup on failure, email failure not failing the request, and rate limiting. Services (email/storage) are tested in isolation by Darsh.
+- **Backend** (Diganth writes, Darsh's CI runs): pytest with real Postgres and MinIO servers. Cover every field rule, all error statuses, duplicate and race handling, resume cleanup on failure, email failure not failing the request, and rate limiting. Services (email/storage) are tested in isolation by Darsh.
 - **Frontend** (Subham): Vitest + React Testing Library for form validation and the success/error states.
 - **Integration** (Krishnapriya): Playwright end-to-end plus the contract test.
 - **Rules:** CI must pass before any PR merges into `feat/apply-form` or `main`. **Every bug found later gets a regression test in the same PR that fixes it.** CI never talks to the production Neon database or sends real emails.
