@@ -365,7 +365,7 @@ export default function Apply() {
                 name="usn"
                 autoComplete="off"
                 value={values.usn}
-                placeholder="e.g. JU2024CS001"
+                placeholder="e.g. 25BTRCB051"
                 className={inputCls(!!errors.usn)}
                 aria-invalid={!!errors.usn}
                 aria-describedby={errors.usn ? 'usn-error' : undefined}
