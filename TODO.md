@@ -553,7 +553,7 @@ These tests are **required**. A backend PR cannot merge into `feat/apply-form` u
 - **Every bug found later gets a new regression test in the same PR that fixes it.**
 - Test boundaries (min/max lengths, size limit) must use the constants from the settings module, not copied numbers, so a limit can change without rewriting tests.
 - _Not covered here:_ the database schema (Darsh's D2), the real MinIO and real SMTP code (Darsh's D3 and D4), and browser/e2e flows (Krishnapriya's I2).
-
+### Swapnil: All backend tests
 **Files** (under `apply-service/tests/`): `conftest.py`, `test_health_config_errors.py`, `test_validation.py`, `test_resume.py`, `test_save_flow.py`, `test_duplicates.py`, `test_privacy_security.py`, `test_email.py`, `test_rate_limit.py`, `test_full_flows.py`.
 
 **Fixtures in `conftest.py`** (B1/B2):
