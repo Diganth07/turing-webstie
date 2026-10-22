@@ -500,13 +500,13 @@ All design must use the tokens from `src/index.css` (`bg-surface`, `border-borde
 - Done when: the form works fully against the mock, `npm run lint`, `npm test` and `npm run build` pass, and screenshots (desktop + mobile) are in the PR.
 
 **S2. PR `feat/apply-entry-points`** (needs S1)
-- [ ] Point **every** "Apply to Join" entry at `/apply`:
+- [x] Point **every** "Apply to Join" entry at `/apply`:
   - `src/components/Hero.jsx` (currently a `<button>` with no action; make it a `<Link to="/apply">` or navigate)
   - `src/components/navbar/ActionPill.jsx` (currently links to `/our-work/hiring-1st-year-2026`)
   - `src/components/navbar/MobileNavDrawer.jsx` (same old link; keep `onClose` so the drawer closes)
   - `src/components/UpcomingEvents.jsx` ("Apply Now" button currently does nothing)
-- [ ] Run `grep -rn -i "apply" src` and confirm nothing still points to the old event page or to nothing.
-- [ ] Keep this PR small and separate. Round 2 already changed `Hero.jsx` on `main`, so make sure Darsh has merged `main` into `feat/apply-form` and pull it right before you start.
+- [x] Run `grep -rn -i "apply" src` and confirm nothing still points to the old event page or to nothing.
+- [x] Keep this PR small and separate. Round 2 already changed `Hero.jsx` on `main`, so make sure Darsh has merged `main` into `feat/apply-form` and pull it right before you start.
 - Done when: every Apply button, on desktop and mobile, lands on `/apply`, and the Our Work event pages are untouched.
 
 ---

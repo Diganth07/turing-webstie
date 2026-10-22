@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 // Add upcoming events here as they're confirmed. Leave empty for the
 // empty-state to show automatically.
 const UPCOMING_EVENTS = [];
@@ -45,9 +47,12 @@ export default function UpcomingEvents() {
                   {event.description}
                 </p>
                 <div className="flex items-center gap-4">
-                  <button className="px-5 py-2.5 bg-primary hover:bg-primary-light transition-colors rounded-md font-semibold text-sm">
+                  <Link
+                    to="/apply"
+                    className="px-5 py-2.5 bg-primary hover:bg-primary-light transition-colors rounded-md font-semibold text-sm text-white"
+                  >
                     Apply Now
-                  </button>
+                  </Link>
                   {event.href && event.href !== '#' && (
                     <a
                       href={event.href}

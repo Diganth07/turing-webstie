@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import NeuralNetDiagram from './NeuralNetDiagram';
 import TerminalPanel from './TerminalPanel';
 
@@ -59,9 +60,9 @@ export default function Hero() {
 
           {/* CTA Actions */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
-            <button
-              type="button"
-              className="group inline-flex items-center justify-center gap-2.5 px-6 py-3 rounded-lg bg-primary hover:bg-primary-light text-white font-medium text-sm tracking-tight transition-all duration-200 shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_4px_14px_rgba(37,99,235,0.35)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.3),0_6px_20px_rgba(37,99,235,0.45)] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] cursor-pointer"
+            <Link
+              to="/apply"
+              className="group inline-flex items-center justify-center gap-2.5 px-6 py-3 rounded-lg bg-primary hover:bg-primary-light text-white font-medium text-sm tracking-tight transition-all duration-200 shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_4px_14px_rgba(37,99,235,0.35)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.3),0_6px_20px_rgba(37,99,235,0.45)] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
             >
               <span>Apply to Join</span>
               <svg
@@ -73,7 +74,8 @@ export default function Hero() {
               >
                 <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-            </button>
+            </Link>
+
 
             <a
               href="#upcoming-events"
