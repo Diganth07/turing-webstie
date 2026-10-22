@@ -502,7 +502,7 @@ export default function Apply() {
                   </span>
                 </legend>
                 <div
-                  className="flex flex-wrap gap-2.5"
+                  className="flex flex-wrap items-center justify-center gap-3"
                   role="group"
                   aria-label="Select your domains"
                 >
@@ -516,16 +516,16 @@ export default function Apply() {
                         aria-checked={selected}
                         onClick={() => toggleDomain(key)}
                         className={[
-                          'flex flex-col items-start px-4 py-2.5 rounded-xl border text-sm font-medium transition-all duration-150',
+                          'flex flex-col items-center justify-center text-center px-4 py-3 rounded-xl border text-sm font-medium transition-all duration-150 min-h-[64px] w-[calc(50%-0.5rem)] sm:w-[175px]',
                           'focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60',
                           selected
                             ? 'border-primary bg-primary/10 text-primary-light shadow-[0_0_0_1px_rgba(37,99,235,0.4)]'
                             : 'border-border bg-surface text-text-muted hover:border-white/25 hover:text-white',
                         ].join(' ')}
                       >
-                        <span>{label}</span>
+                        <span className="leading-tight">{label}</span>
                         {helper && (
-                          <span className={`text-[11px] font-normal leading-tight mt-0.5 ${selected ? 'text-primary-light/70' : 'text-text-dim'}`}>
+                          <span className={`text-[11px] font-normal leading-tight mt-1 ${selected ? 'text-primary-light/70' : 'text-text-dim'}`}>
                             {helper}
                           </span>
                         )}
@@ -538,7 +538,7 @@ export default function Apply() {
             </div>
 
             {/* Submit */}
-            <div className="pt-2">
+            <div className="pt-4 flex flex-col items-center justify-center text-center">
               <button
                 id="submit-application"
                 type="submit"
