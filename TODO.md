@@ -487,16 +487,16 @@ Each side commits a `.env.example` listing these with fake values.
 All design must use the tokens from `src/index.css` (`bg-surface`, `border-border`, `text-primary-light`, ...). No hardcoded hex colors. Work on desktop and mobile. You do **not** need the backend to start.
 
 **S1. PR `feat/apply-form-ui`** (base: `feat/apply-form`)
-- [ ] New route **`/apply`**: add the page (`src/pages/Apply.jsx`) and register it in `App.jsx`.
-- [ ] Build the form with these fields: Name, USN, College email (**marked optional**), Personal email, Mobile number, Resume (PDF upload), Domain (**multi-select**, at least one: Technology, Photography, Design, Marketing with helper text "Outreach, PR, Events", Social Media). Domains work well as selectable chips/cards. Use the keys and labels from the contract.
-- [ ] Client-side validation mirroring the field rules table: required fields, email format, 10-digit mobile, PDF only, 5 MB limit, at least one domain. Show errors under each field, only after the field is touched or on submit.
-- [ ] Submit button shows a loading state and is disabled while sending (prevents double submit).
-- [ ] **Success screen**: "Thanks for registering. We'll update you when the next auditions are announced." Mention that a confirmation email was sent to the personal email they entered.
-- [ ] **Error states**: field errors from the API (`422` `fields` map shown under the right inputs), a clear message for duplicate (`409`), file too large (`413`), wrong file type (`415`), and a generic retry message for `429` / `500` / network failure. Never show raw error text from the server.
-- [ ] Accessibility: real `<label>`s, `aria-invalid` and error text linked to inputs, keyboard-usable domain selection, visible focus.
-- [ ] All API access goes through **one function**: `submitApplication(formData)` in `src/api/applications.js`. For now it is a **mock** that returns the contract's success and error responses (switchable so you can test every error state). Krishnapriya replaces the mock with the real call in I1; do not hardcode URLs in components.
-- [ ] Add frontend tests (Vitest + React Testing Library): each validation rule, optional college email, multi-domain selection, success screen, and each error state. Add an `npm test` script so D1's CI can run it.
-- [ ] Mobile check at phone width: no horizontal scroll, upload control is usable.
+- [x] New route **`/apply`**: add the page (`src/pages/Apply.jsx`) and register it in `App.jsx`.
+- [x] Build the form with these fields: Name, USN, College email (**marked optional**), Personal email, Mobile number, Resume (PDF upload), Domain (**multi-select**, at least one: Technology, Photography, Design, Marketing with helper text "Outreach, PR, Events", Social Media). Domains work well as selectable chips/cards. Use the keys and labels from the contract.
+- [x] Client-side validation mirroring the field rules table: required fields, email format, 10-digit mobile, PDF only, 5 MB limit, at least one domain. Show errors under each field, only after the field is touched or on submit.
+- [x] Submit button shows a loading state and is disabled while sending (prevents double submit).
+- [x] **Success screen**: "Thanks for registering. We'll update you when the next auditions are announced." Mention that a confirmation email was sent to the personal email they entered.
+- [x] **Error states**: field errors from the API (`422` `fields` map shown under the right inputs), a clear message for duplicate (`409`), file too large (`413`), wrong file type (`415`), and a generic retry message for `429` / `500` / network failure. Never show raw error text from the server.
+- [x] Accessibility: real `<label>`s, `aria-invalid` and error text linked to inputs, keyboard-usable domain selection, visible focus.
+- [x] All API access goes through **one function**: `submitApplication(formData)` in `src/api/applications.js`. For now it is a **mock** that returns the contract's success and error responses (switchable so you can test every error state). Krishnapriya replaces the mock with the real call in I1; do not hardcode URLs in components.
+- [x] Add frontend tests (Vitest + React Testing Library): each validation rule, optional college email, multi-domain selection, success screen, and each error state. Add an `npm test` script so D1's CI can run it.
+- [x] Mobile check at phone width: no horizontal scroll, upload control is usable.
 - Done when: the form works fully against the mock, `npm run lint`, `npm test` and `npm run build` pass, and screenshots (desktop + mobile) are in the PR.
 
 **S2. PR `feat/apply-entry-points`** (needs S1)
