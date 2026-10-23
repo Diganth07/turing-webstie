@@ -39,7 +39,7 @@ async function fillAndSubmit(user, overrides = {}) {
   const get = (label) => screen.getByLabelText(label);
 
   await user.type(get('Full Name'), overrides.name ?? 'Turing Alan');
-  await user.type(get('USN (University Seat Number)'), overrides.usn ?? 'JU2024CS001');
+  await user.type(get('USN / Application number'), overrides.usn ?? 'JU2024CS001');
   if (overrides.college_email !== undefined) {
     await user.type(get(/College Email/i), overrides.college_email);
   }
@@ -149,7 +149,7 @@ describe('USN validation', () => {
     const input = screen.getByLabelText(/USN/i);
     await user.click(input);
     await user.tab();
-    expect(await screen.findByText(/USN is required/i)).toBeInTheDocument();
+    expect(await screen.findByText(/USN \/ application number is required/i)).toBeInTheDocument();
   });
 
   it('shows error when USN is too short', async () => {
@@ -179,14 +179,14 @@ describe('USN validation', () => {
     expect(await screen.findByText(/only letters and digits/i)).toBeInTheDocument();
   });
 
-  it.each(['JU2024CS001', 'ABC123', '12345', 'ABCDE12345FGHIJ67890'])(
+  it.each(['JU2024CS001', 'ABC123', '12345', 'ABCDE12345FGHIJ67890', 'JUUG25LBTECH31055'])(
     'accepts valid USN format: %s', async (usn) => {
       const user = userEvent.setup();
       renderApply();
       const input = screen.getByLabelText(/USN/i);
       await user.type(input, usn);
       await user.tab();
-      expect(screen.queryByText(/USN is required/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/USN \/ application number is required/i)).not.toBeInTheDocument();
       expect(screen.queryByText(/only letters and digits/i)).not.toBeInTheDocument();
     }
   );
@@ -306,6 +306,35 @@ describe('Mobile validation', () => {
     await user.type(input, '5876543210');
     await user.tab();
     expect(await screen.findByText(/10-digit/i)).toBeInTheDocument();
+  });
+
+  it('accepts 10-digit mobile number starting with 91 (9123456789)', async () => {
+    const user = userEvent.setup();
+    renderApply();
+    const input = screen.getByLabelText('Mobile Number');
+    await user.type(input, '9123456789');
+    await user.tab();
+    expect(screen.queryByText(/10-digit/i)).not.toBeInTheDocument();
+  });
+
+  it('accepts mobile number starting with +91 (+919123456789)', async () => {
+    const user = userEvent.setup();
+    renderApply();
+    const input = screen.getByLabelText('Mobile Number');
+    await user.type(input, '+919123456789');
+    await user.tab();
+    expect(screen.queryByText(/10-digit/i)).not.toBeInTheDocument();
+  });
+
+  it('passes 9123456789 (not 23456789) as mobile value to submitApplication', async () => {
+    submitApplication.mockClear();
+    submitApplication.mockResolvedValue({ status: 201, body: { id: 'x', message: 'ok' } });
+    const user = userEvent.setup();
+    renderApply();
+    await fillAndSubmit(user, { mobile: '+919123456789' });
+    expect(submitApplication).toHaveBeenCalled();
+    const [formData] = submitApplication.mock.calls[0];
+    expect(formData.get('mobile')).toBe('9123456789');
   });
 });
 
