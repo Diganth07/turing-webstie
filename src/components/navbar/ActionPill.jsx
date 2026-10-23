@@ -1,8 +1,10 @@
+import { Link } from 'react-router-dom';
+
 export default function ActionPill() {
   return (
-    <button
-      type="button"
-      className="glass-pill glass-pill-hover group hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm sm:text-[14.5px] font-semibold text-white transition-all duration-300 hover:border-primary-light/40 hover:shadow-primary/25 hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] leading-none cursor-pointer"
+    <Link
+      to="/apply"
+      className="glass-pill glass-pill-hover group hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm sm:text-[14.5px] font-semibold text-white transition-all duration-300 hover:border-primary-light/40 hover:shadow-primary/25 hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] leading-none"
     >
       <span className="tracking-tight">Apply to Join</span>
       <svg
@@ -14,6 +16,6 @@ export default function ActionPill() {
       >
         <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
-    </button>
+    </Link>
   );
 }
