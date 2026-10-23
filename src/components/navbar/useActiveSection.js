@@ -1,8 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-export function useActiveSection(sectionIds = ['home', 'about', 'what-we-do', 'events', 'leaders', 'collaborate']) {
-  const [activeSection, setActiveSection] = useState('home');
+const SECTION_IDS = ['home', 'about', 'what-we-do', 'events', 'leaders', 'collaborate'];
+
+export function useActiveSection(sectionIds = SECTION_IDS) {
+  // Seed from the current URL hash on first render so that after a page
+  // refresh the navbar highlight is correct even before the scroll fires.
+  const initialHash = window.location.hash.replace('#', '');
+  const [activeSection, setActiveSection] = useState(
+    sectionIds.includes(initialHash) ? initialHash : 'home'
+  );
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
 
@@ -36,12 +43,27 @@ export function useActiveSection(sectionIds = ['home', 'about', 'what-we-do', 'e
       }
 
       setActiveSection(current);
+
+      // Keep the URL hash in sync with the section currently in view so that
+      // refreshing the page always lands on the right spot. replaceState is
+      // intentional here — we don't want every scroll to push a history entry.
+      const nextHash = `#${current}`;
+      if (window.location.hash !== nextHash) {
+        window.history.replaceState(null, '', nextHash);
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    // Delay the initial handleScroll call slightly so that Home.jsx's
+    // scrollIntoView (triggered by the URL hash on mount) has time to
+    // move the page to the right position before we read scroll offsets.
+    const timer = setTimeout(handleScroll, 100);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(timer);
+    };
   }, [location.pathname, sectionIds]);
 
   return { activeSection, isScrolled };
