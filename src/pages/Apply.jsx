@@ -18,6 +18,13 @@ const MIN_USN_LEN   = 5;
 const MAX_USN_LEN   = 20;
 
 // ─── Validation helpers ───────────────────────────────────────────────────────
+export function normalizeMobile(raw) {
+  let d = raw.replace(/[\s\-+]/g, '');
+  if (d.length === 12 && d.startsWith('91')) d = d.slice(2);
+  else if (d.length === 11 && d.startsWith('0')) d = d.slice(1);
+  return d;
+}
+
 function validateField(name, value, _allValues) {
   switch (name) {
     case 'name': {
@@ -30,10 +37,10 @@ function validateField(name, value, _allValues) {
     }
     case 'usn': {
       const v = value.trim().toUpperCase();
-      if (!v) return 'USN is required.';
-      if (v.length < MIN_USN_LEN) return `USN must be at least ${MIN_USN_LEN} characters.`;
-      if (v.length > MAX_USN_LEN) return `USN must be at most ${MAX_USN_LEN} characters.`;
-      if (!/^[A-Z0-9]+$/.test(v)) return 'USN must contain only letters and digits.';
+      if (!v) return 'USN / application number is required.';
+      if (v.length < MIN_USN_LEN) return `USN / application number must be at least ${MIN_USN_LEN} characters.`;
+      if (v.length > MAX_USN_LEN) return `USN / application number must be at most ${MAX_USN_LEN} characters.`;
+      if (!/^[A-Z0-9]+$/.test(v)) return 'USN / application number must contain only letters and digits.';
       return '';
     }
     case 'college_email': {
@@ -49,9 +56,8 @@ function validateField(name, value, _allValues) {
       return '';
     }
     case 'mobile': {
-      const stripped = value.replace(/[\s+]/g, '').replace(/^(0|91)/, '');
       if (!value.trim()) return 'Mobile number is required.';
-      if (!/^[6-9]\d{9}$/.test(stripped)) return 'Enter a valid 10-digit Indian mobile number.';
+      if (!/^[6-9]\d{9}$/.test(normalizeMobile(value))) return 'Enter a valid 10-digit Indian mobile number.';
       return '';
     }
     case 'resume': {
@@ -244,7 +250,7 @@ export default function Apply() {
       formData.append('name',           values.name.trim());
       formData.append('usn',            values.usn.trim().toUpperCase());
       formData.append('personal_email', values.personal_email.trim().toLowerCase());
-      formData.append('mobile',         values.mobile.replace(/[\s+]/g, '').replace(/^(0|91)/, ''));
+      formData.append('mobile',         normalizeMobile(values.mobile));
       if (values.college_email.trim()) {
         formData.append('college_email', values.college_email.trim().toLowerCase());
       }
@@ -313,7 +319,7 @@ export default function Apply() {
       <div className="border-b border-border">
         <div className="max-w-2xl mx-auto px-5 md:px-10 pt-12 pb-8 md:pt-16 md:pb-10">
           <div className="inline-flex items-center gap-2 mb-5 px-3 py-1.5 border border-border rounded-full text-[10px] sm:text-xs font-mono tracking-widest text-text-muted uppercase">
-            Recruitment · 2026
+            Join the Club
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight mb-3">
             Apply to Join{' '}
@@ -358,20 +364,21 @@ export default function Apply() {
 
             {/* USN */}
             <div>
-              <Label htmlFor="usn">USN (University Seat Number)</Label>
+              <Label htmlFor="usn">USN / Application number</Label>
               <input
                 id="usn"
                 type="text"
                 name="usn"
                 autoComplete="off"
                 value={values.usn}
-                placeholder="e.g. 25BTRCB051"
+                placeholder="USN or application number"
                 className={inputCls(!!errors.usn)}
                 aria-invalid={!!errors.usn}
                 aria-describedby={errors.usn ? 'usn-error' : undefined}
                 onChange={(e) => handleChange('usn', e.target.value)}
                 onBlur={() => handleBlur('usn')}
               />
+              <p className="mt-1 text-xs text-text-dim">Enter your USN. If you don't have one, use your application number.</p>
               <FieldError id="usn-error" message={errors.usn} />
             </div>
 
