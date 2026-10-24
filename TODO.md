@@ -488,26 +488,26 @@ Each side commits a `.env.example` listing these with fake values.
 All design must use the tokens from `src/index.css` (`bg-surface`, `border-border`, `text-primary-light`, ...). No hardcoded hex colors. Work on desktop and mobile. You do **not** need the backend to start.
 
 **S1. PR `feat/apply-form-ui`** (base: `feat/apply-form`)
-- [ ] New route **`/apply`**: add the page (`src/pages/Apply.jsx`) and register it in `App.jsx`.
-- [ ] Build the form with these fields: Name, USN, College email (**marked optional**), Personal email, Mobile number, Resume (PDF upload), Domain (**multi-select**, at least one: Technology, Photography, Design, Marketing with helper text "Outreach, PR, Events", Social Media). Domains work well as selectable chips/cards. Use the keys and labels from the contract.
-- [ ] Client-side validation mirroring the field rules table: required fields, email format, 10-digit mobile, PDF only, 5 MB limit, at least one domain. Show errors under each field, only after the field is touched or on submit.
-- [ ] Submit button shows a loading state and is disabled while sending (prevents double submit).
-- [ ] **Success screen**: "Thanks for registering. We'll update you when the next auditions are announced." Mention that a confirmation email was sent to the personal email they entered.
-- [ ] **Error states**: field errors from the API (`422` `fields` map shown under the right inputs), a clear message for duplicate (`409`), file too large (`413`), wrong file type (`415`), and a generic retry message for `429` / `500` / network failure. Never show raw error text from the server.
-- [ ] Accessibility: real `<label>`s, `aria-invalid` and error text linked to inputs, keyboard-usable domain selection, visible focus.
-- [ ] All API access goes through **one function**: `submitApplication(formData)` in `src/api/applications.js`. For now it is a **mock** that returns the contract's success and error responses (switchable so you can test every error state). Krishnapriya replaces the mock with the real call in I1; do not hardcode URLs in components.
-- [ ] Add frontend tests (Vitest + React Testing Library): each validation rule, optional college email, multi-domain selection, success screen, and each error state. Add an `npm test` script so D1's CI can run it.
-- [ ] Mobile check at phone width: no horizontal scroll, upload control is usable.
+- [x] New route **`/apply`**: add the page (`src/pages/Apply.jsx`) and register it in `App.jsx`.
+- [x] Build the form with these fields: Name, USN, College email (**marked optional**), Personal email, Mobile number, Resume (PDF upload), Domain (**multi-select**, at least one: Technology, Photography, Design, Marketing with helper text "Outreach, PR, Events", Social Media). Domains work well as selectable chips/cards. Use the keys and labels from the contract.
+- [x] Client-side validation mirroring the field rules table: required fields, email format, 10-digit mobile, PDF only, 5 MB limit, at least one domain. Show errors under each field, only after the field is touched or on submit.
+- [x] Submit button shows a loading state and is disabled while sending (prevents double submit).
+- [x] **Success screen**: "Thanks for registering. We'll update you when the next auditions are announced." Mention that a confirmation email was sent to the personal email they entered.
+- [x] **Error states**: field errors from the API (`422` `fields` map shown under the right inputs), a clear message for duplicate (`409`), file too large (`413`), wrong file type (`415`), and a generic retry message for `429` / `500` / network failure. Never show raw error text from the server.
+- [x] Accessibility: real `<label>`s, `aria-invalid` and error text linked to inputs, keyboard-usable domain selection, visible focus.
+- [x] All API access goes through **one function**: `submitApplication(formData)` in `src/api/applications.js`. For now it is a **mock** that returns the contract's success and error responses (switchable so you can test every error state). Krishnapriya replaces the mock with the real call in I1; do not hardcode URLs in components.
+- [x] Add frontend tests (Vitest + React Testing Library): each validation rule, optional college email, multi-domain selection, success screen, and each error state. Add an `npm test` script so D1's CI can run it.
+- [x] Mobile check at phone width: no horizontal scroll, upload control is usable.
 - Done when: the form works fully against the mock, `npm run lint`, `npm test` and `npm run build` pass, and screenshots (desktop + mobile) are in the PR.
 
 **S2. PR `feat/apply-entry-points`** (needs S1)
-- [ ] Point **every** "Apply to Join" entry at `/apply`:
+- [x] Point **every** "Apply to Join" entry at `/apply`:
   - `src/components/Hero.jsx` (currently a `<button>` with no action; make it a `<Link to="/apply">` or navigate)
   - `src/components/navbar/ActionPill.jsx` (currently links to `/our-work/hiring-1st-year-2026`)
   - `src/components/navbar/MobileNavDrawer.jsx` (same old link; keep `onClose` so the drawer closes)
   - `src/components/UpcomingEvents.jsx` ("Apply Now" button currently does nothing)
-- [ ] Run `grep -rn -i "apply" src` and confirm nothing still points to the old event page or to nothing.
-- [ ] Keep this PR small and separate. Round 2 already changed `Hero.jsx` on `main`, so make sure Darsh has merged `main` into `feat/apply-form` and pull it right before you start.
+- [x] Run `grep -rn -i "apply" src` and confirm nothing still points to the old event page or to nothing.
+- [x] Keep this PR small and separate. Round 2 already changed `Hero.jsx` on `main`, so make sure Darsh has merged `main` into `feat/apply-form` and pull it right before you start.
 - Done when: every Apply button, on desktop and mobile, lands on `/apply`, and the Our Work event pages are untouched.
 
 ---
@@ -554,7 +554,7 @@ These tests are **required**. A backend PR cannot merge into `feat/apply-form` u
 - **Every bug found later gets a new regression test in the same PR that fixes it.**
 - Test boundaries (min/max lengths, size limit) must use the constants from the settings module, not copied numbers, so a limit can change without rewriting tests.
 - _Not covered here:_ the database schema (Darsh's D2), the real MinIO and real SMTP code (Darsh's D3 and D4), and browser/e2e flows (Krishnapriya's I2).
-
+### Swapnil: All backend tests
 **Files** (under `apply-service/tests/`): `conftest.py`, `test_health_config_errors.py`, `test_validation.py`, `test_resume.py`, `test_save_flow.py`, `test_duplicates.py`, `test_privacy_security.py`, `test_email.py`, `test_rate_limit.py`, `test_full_flows.py`.
 
 **Fixtures in `conftest.py`** (B1/B2):

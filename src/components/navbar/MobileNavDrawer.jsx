@@ -135,10 +135,10 @@ export default function MobileNavDrawer({ isOpen, onClose, activeSection }) {
 
         {/* CTA Button with fluid hover slide */}
         <div className="pt-3 border-t border-white/10">
-          <button
-            type="button"
+          <Link
+            to="/apply"
             onClick={onClose}
-            className="group flex items-center justify-center gap-2.5 w-full py-3.5 bg-primary hover:bg-primary-light text-white font-semibold text-sm sm:text-[15px] rounded-2xl transition-all duration-300 shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-[1.01] active:scale-[0.98] cursor-pointer"
+            className="group flex items-center justify-center gap-2.5 w-full py-3.5 bg-primary hover:bg-primary-light text-white font-semibold text-sm sm:text-[15px] rounded-2xl transition-all duration-300 shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-[1.01] active:scale-[0.98]"
           >
             <span>Apply to Join</span>
             <svg
@@ -150,7 +150,8 @@ export default function MobileNavDrawer({ isOpen, onClose, activeSection }) {
             >
               <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-          </button>
+          </Link>
+
         </div>
       </div>
     </>
