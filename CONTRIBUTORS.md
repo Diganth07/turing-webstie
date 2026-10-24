@@ -26,7 +26,7 @@ This list is maintained by hand alongside the GitHub [contributors graph](https:
   - Added Hiring 1st Year Students event card with Read More page, extended details section, 6 event photos, and results JSON (Task B) ([#20](https://github.com/TheTuringClubJU/turing-webstie/pull/20))
   - Modernized navigation UI with modular floating 3-pill layout, active scroll-spy, glassmorphism, radar status indicators, and animated mobile drawer
   - Fixed navbar scroll-spy hash sync: URL hash now updates in real time as the user scrolls, and page refresh always lands on the correct section (Closes [#25](https://github.com/TheTuringClubJU/turing-webstie/issues/25))
-  - Implemented complete backend regression test suite (Groups 1–9, 154 tests) covering health/config, field validation, resume uploads, transaction integrity, concurrency & duplicates, privacy/security, email triggers, rate limiting, and full flows for apply-service
+  - Implemented complete backend regression test suite (Groups 1–9, 154 tests) covering health/config, field validation, resume uploads, transaction integrity, concurrency & duplicates, privacy/security, email triggers, rate limiting, and full flows for apply-service (Closes [#30](https://github.com/TheTuringClubJU/turing-webstie/issues/30))
 
 <!--
 Add new contributors below this line, following the format above.
